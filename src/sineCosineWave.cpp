@@ -128,7 +128,7 @@ void keyInput(unsigned char key, int x, int y)
 		glutPostRedisplay();
 		break;
 	case '-' :
-		if (wavePointCount > 2) {
+		if (wavePointCount > 3) {
 			wavePointCount--;
 			glutPostRedisplay();
 		}
