@@ -10,9 +10,6 @@
 #include <GL/freeglut.h>
 #include <math.h>
 
-// I love C++
-using namespace std;
-
 // Global variables
 int wavePointCount = 5;
 double pi = 2 * acos(0.0);   // https://www.geeksforgeeks.org/cpp/pi-in-c-with-examples/
