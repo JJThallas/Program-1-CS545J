@@ -13,9 +13,10 @@
 // Global variables
 int wavePointCount = 5;
 double pi = 2 * acos(0.0);   // https://www.geeksforgeeks.org/cpp/pi-in-c-with-examples/
+bool isSine = true;
 
 // Function to draw a sine wave
-void makeWave(bool isSine)
+void makeWave()
 {
 	// Set increments
 	float hor = 100.0f / (float)(wavePointCount - 1);
@@ -84,9 +85,19 @@ void keyInput(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
-	case 27:
-		exit(0);
+	case '=':
+		wavePointCount++;
+		glutPostRedisplay();
 		break;
+	case '-' :
+		if (wavePointCount > 2) {
+			wavePointCount--;
+			glutPostRedisplay();
+		}
+		break;
+	case ' ':
+		isSine = !isSine;   // Toggle between sine and cosine
+		glutPostRedisplay();
 	default:
 		break;
 	}
