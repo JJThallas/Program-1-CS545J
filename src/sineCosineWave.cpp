@@ -25,8 +25,9 @@
 
 // Global variables
 int wavePointCount = 5;
-double pi = 2 * acos(0.0);   // https://www.geeksforgeeks.org/cpp/pi-in-c-with-examples/
+float sampleOffset = 0;
 bool isSine = true;
+double pi = 2 * acos(0.0);   // https://www.geeksforgeeks.org/cpp/pi-in-c-with-examples/
 
 // Function to draw a sine wave
 void makeWave()
@@ -35,27 +36,33 @@ void makeWave()
 	float hor = 100.0f / (float)(wavePointCount - 1);
 	float rad = (2.0f * pi) / (float)(wavePointCount - 1);
 
-	// Create sine wave
-	glColor3f(1.0, 0.0, 0.0);
+	// Set colors
+	// Red is sine, blue is cosine
+	float r = 1.0 ? isSine : 0.0;
+	float g = 0.0;
+	float b = 1.0 ? !isSine : 0.0;
+	glColor3f(r, g, b);
+
+	// Create wave
 	glLineWidth(1.0);		// default
 	glBegin(GL_LINE_STRIP);
 	for (int i = 0; i < wavePointCount; i++)
 	{
 		float x = i * hor;
 		float y = 0.0f;
-
+		float offsetRad = (pi * sampleOffset) / 8.0f;
 		if (isSine) {
-			y = (sin(i * rad) * 50) + 50;
+			y = (sin((i * rad) + offsetRad) * 50) + 50;
 		}
 		else {
-			y = (cos(i * rad) * 50) + 50;
+			y = (cos((i * rad) + offsetRad) * 50) + 50;
 		}
 
-		glBegin(GL_POINTS);
 		glVertex3f(x, y, 0.0f);
 	}
-		glEnd();
-	}
+
+	glEnd();
+}
 
 // Drawing routine.
 void drawScene(void)
@@ -71,9 +78,25 @@ void drawScene(void)
 	glEnd();
 
 	// Draw sine wave
-	makeWave(true);
+	makeWave();
 
 	glFlush();
+}
+
+// Handle arrow input to adjust sample offset
+void arrowInput(int key, int x, int y) {
+	switch (key) {
+	case GLUT_KEY_RIGHT:
+		sampleOffset++;
+		glutPostRedisplay();
+		break;
+	case GLUT_KEY_LEFT:
+		sampleOffset--;
+		glutPostRedisplay();
+		break;
+	default:
+		break;
+	}
 }
 
 // Initialization routine.
@@ -116,24 +139,7 @@ void keyInput(unsigned char key, int x, int y)
 	}
 }
 
-// Function to compute sine wave value at x
-// TODO: Make it actually work
-float sinWave(float x)
-{
-	float pi = 3.14159;
-	return 1.0f;
-}
-
 // Main routine
-/*
-* PROJECT REQUIREMENTS:
-* 1. Window is 500 by 500
-* 2. Bounding box is from (0.0, 0.0, -1.0) to (100.0, 100.0, 1.0)
-* 3. Must use ortho projection (obv)
-* 4. On init, render a sine wave with 5 points
-* 5. Points must reach top and bottom of window but not exceed it
-* 6. Wave is rendered using the GL_LINES or GL_LINE_STRIP primitive and calls to glVertex3f
-*/
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
@@ -148,9 +154,10 @@ int main(int argc, char **argv)
 	glutDisplayFunc(drawScene);
 	glutReshapeFunc(resize);
 	glutKeyboardFunc(keyInput);
+	glutSpecialFunc(arrowInput);
 
 	glewExperimental = GL_TRUE;
-	glewInit();
+	glewInit();	
 
 	setup();
 
