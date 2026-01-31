@@ -17,6 +17,8 @@
 // * drawScene(): Initial rendering of the scene, and draws the y=0 line (though it's really y=50).
 // * keyInput(): Handles keyboard input to increase/decrease the number of wave points or toggle wave types.
 //               It does this by changing the global variables.
+// * arrowInput(): Handles special key input (arrow keys) to adjust the sample offset of the wave
+//                 AKA the part of the wave being displayed.
 ////////////////////////////////////////////////////
 
 #include <GL/glew.h>
