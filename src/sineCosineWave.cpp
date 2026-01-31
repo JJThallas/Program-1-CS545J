@@ -15,23 +15,52 @@ using namespace std;
 
 // Global variables
 int wavePointCount = 5;
+double pi = 2 * acos(0.0);   // https://www.geeksforgeeks.org/cpp/pi-in-c-with-examples/
+
+// Function to draw a sine wave
+void makeWave(bool isSine)
+{
+	// Set increments
+	float hor = 100.0f / (float)(wavePointCount - 1);
+	float rad = (2.0f * pi) / (float)(wavePointCount - 1);
+
+	// Create sine wave
+	glColor3f(1.0, 0.0, 0.0);
+	glLineWidth(1.0);		// default
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i < wavePointCount; i++)
+	{
+		float x = i * hor;
+		float y = 0.0f;
+
+		if (isSine) {
+			y = (sin(i * rad) * 50) + 50;
+		}
+		else {
+			y = (cos(i * rad) * 50) + 50;
+		}
+
+		glBegin(GL_POINTS);
+		glVertex3f(x, y, 0.0f);
+	}
+		glEnd();
+	}
 
 // Drawing routine.
 void drawScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	// Create Y=0 line
 	glColor3f(0.0, 0.0, 0.0);
+	glLineWidth(1.8);
+	glBegin(GL_LINES);
+	glVertex3f(0.0f, 50.0f, 0.0f);
+	glVertex3f(100.0f, 50.0f, 0.0f);
+	glEnd();
 
-	int increment = 100 / (wavePointCount - 1);
-	for (int i = 0; i < wavePointCount; i++)
-	{
-		float x = i * increment;
-		float y = sinWave(x);
-
-		glBegin(GL_POINTS);
-		glVertex3f(x, y, 0.0f);
-		glEnd();
-	}
+	// Draw sine wave
+	makeWave(true);
 
 	glFlush();
 }
