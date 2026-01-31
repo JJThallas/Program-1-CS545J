@@ -3,7 +3,20 @@
 // (modifying experimentLines.cpp)
 // 
 // Sumanta Guha.
-// Joseph Thallas.
+// 
+// Joseph Thallas and his Summary:
+// 
+// This program creates a 500x500 OpenGL window that contains a sine or cosine wave.
+// It handles user input to modify the waves characteristics.
+// And since I'm a JUMPer, the arrow keys adjust the sampling position of the wave.
+// 
+// Key Functions:
+// 
+// * MakeWave(): Computes and draws the sine or cosine wave based on the current number of points and wave type.
+//               Uses global variables to determine the number of points and type of wave.
+// * drawScene(): Initial rendering of the scene, and draws the y=0 line (though it's really y=50).
+// * keyInput(): Handles keyboard input to increase/decrease the number of wave points or toggle wave types.
+//               It does this by changing the global variables.
 ////////////////////////////////////////////////////
 
 #include <GL/glew.h>
